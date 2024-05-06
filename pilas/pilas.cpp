@@ -3,7 +3,6 @@ PILAS: Estructura LIFO (last in first out) introducir o eliminar por el mismo ex
 insertar (push)
 quitar (pop)
 La salida es inversa a la entrada. Ej. si entra M-A-C sale C-A-M
-COLAS: Estructura FIFO (first in first out)
 
 Insertar elementos en una pila:
 1- Crear el espacio en memoria para almacenar el nodo
@@ -41,7 +40,7 @@ int main() {
     agregarPila(pila, dato);
 
     cout<<"\nSacando los elemntos de la pila: ";
-    while(pila != NULL) { // mientras no sea el final de la pila
+    while (pila != NULL) { // mientras no sea el final de la pila
         sacarPila(pila, dato);
         if (pila != NULL) {
             cout<<dato<<", ";
