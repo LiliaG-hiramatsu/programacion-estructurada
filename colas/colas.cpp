@@ -44,21 +44,16 @@ int main() {
     cout<<"Ingresar un numero entero: "; cin>>dato;
     insertarCola(frente, fin, dato);
 
+    // Eliminando los elementos de la cola
     cout<<"\nEliminando los nodos de la cola: "<<endl;
-    while (frente != NULL) {
+    while (frente != NULL) {    // si frente no es NULL, significa que hay mas nodos en la cola
         eliminarCola(frente, fin, dato);
         if (frente != NULL) {
             cout<<dato<<", ";
-        } else {
+        } else {    // cuando ya no hayan mas nodos, significa que es el ultimo dato
             cout<<dato<<".";
         }
     }
-    /*
-    do
-    {
-        eliminarCola(frente, fin, dato);
-    } while (frente == NULL && fin == NULL);
-    */
     return 0;
 }
 
