@@ -69,17 +69,17 @@ void insertarDato(Nodo *&frente, Nodo *&fin, char n) {
     Nodo *nuevo_nodo = new Nodo();
 
     nuevo_nodo -> dato = n;
-    nuevo_nodo -> siguiente = NULL;
+    nuevo_nodo -> siguiente = NULL; // los nodos que van llegando a la cola siempre van a tener un puntero siguiente NULL ya que atras de ellos no va a haber nada (es el ultimo de la cola)
 
     if (cola_vacia(frente)) {
-        frente = nuevo_nodo;
+        frente = nuevo_nodo; // la primera vez frente va ser NULL asique entra aca y copia "nuevo_nodo" en "frente"
     } else {
-        fin -> siguiente = nuevo_nodo;
+        fin -> siguiente = nuevo_nodo; // guarda en el puntero siguiente la nueva direccion de nuevo_nodo
     }
-    fin = nuevo_nodo;
+    fin = nuevo_nodo; // esta linea siempre se ejecuta pq el puntero "fin" siempre tiene que apuntar al nuevo nodo
 }
 
-// Funcion para verificar si la cola esta vacia
+// Funcion para verificar si la cola esta vacia - se va a llamar solo la primera vez (cuando la cola esta vacia)
 bool cola_vacia(Nodo *frente) {
     return (frente == NULL) ? true : false;
 }

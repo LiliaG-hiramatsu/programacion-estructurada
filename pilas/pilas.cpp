@@ -24,7 +24,7 @@ using namespace std;
 
 struct Nodo {
     int dato;
-    Nodo *siguiente;
+    Nodo *siguiente;    // siguiente solo puede apuntar a una estructura de tipo Nodo.
 };
 
 void agregarPila(Nodo *&, int); // prototipo --- firma del metodo
@@ -53,17 +53,18 @@ int main() {
 }
 
 void agregarPila(Nodo *&pila, int n) {
-    Nodo *nuevo_nodo = new Nodo(); // paso 1
-    nuevo_nodo -> dato = n; // paso 2
-    nuevo_nodo -> siguiente = pila; // paso 3
-    pila = nuevo_nodo; // paso 4
+    Nodo *nuevo_nodo = new Nodo(); // paso 1: Crear el espacio en memoria para almacenar el nodo
+    nuevo_nodo -> dato = n; // paso 2: Cargar el valor dentro del nodo (dato)
+    nuevo_nodo -> siguiente = pila; // paso 3: Cargar el puntero pila dentro del nodo *siguiente (en la primera iteracion sera NULL, pero en la proximas llamadas seran direcciones de memoria)
+    pila = nuevo_nodo; // paso 4: Asignar el nuevo nodo a pila - se copia la estructura en pila. En la primera llamada no hace nada ya que pila es NULL.
+    // en la segunda llamada pila va a tener el dato (por ej un 7) y una direccion de memoria
 
     cout<<"\nElemento "<<n<<" agregado a pila correctamente."<<endl;
 }
 
 void sacarPila(Nodo *&pila, int &n) {
-    Nodo *aux = pila; // paso 1
-    n = aux -> dato; // paso 2
-    pila = aux -> siguiente; // paso 3
-    delete aux; // paso 4
+    Nodo *aux = pila; // paso 1: Crear una variable auxiliar de tipo Nodo e igualarlo a pila. Se hace una copia del ultimo nodo de la pila (tiene el dato y la direccion de memoria del siguiente nodo)
+    n = aux -> dato; // paso 2: almacena el dato sacado de aux (que tiene la estructura) en n.
+    pila = aux -> siguiente; // paso 3: guarda el puntero siguiente de la estructura aux en la pila.
+    delete aux; // paso 4: Eliminar el nodo aux
 }
