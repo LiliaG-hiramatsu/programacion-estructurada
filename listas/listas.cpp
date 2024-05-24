@@ -74,7 +74,7 @@ void insertarLista(Nodo *&lista, int n) {
         aux2 = aux1;
         aux1 = aux1 -> siguiente;
     }
-    if (lista == aux1) {    // siempre entra al if si el elemento va a l ppio de la lista
+    if (lista == aux1) {    // siempre entra al if si el elemento va al ppio de la lista
         lista = nuevo_nodo;
     } else {    // se ejecuta si va al medio o al final
         aux2 -> siguiente = nuevo_nodo;

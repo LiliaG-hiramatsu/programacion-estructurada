@@ -13,7 +13,6 @@ using namespace std;
 
 struct Cliente {
     char nombre[30];
-    char clave[10];
     int edad;
     int dni;
 };
@@ -27,10 +26,9 @@ void menu();
 void ingresarCliente(Cliente &);
 void insertarCola(Nodo *&, Nodo *&, Cliente);
 bool colaVacia(Nodo *);
-void sacarCola(Nodo *&, Nodo *&, Cliente &);
-void mostrarCola(Nodo *&, Nodo *&, Cliente &);
-void compararColas(Nodo *, Nodo *, Nodo *, Nodo *);
-void mayorDni(Nodo *, Nodo *);
+void mostrarCola(Nodo *, Cliente &);
+void compararColas(Nodo *, Nodo *);
+void mayorDni(Nodo *);
 
 int main() {
     menu();
@@ -49,45 +47,45 @@ void menu() {
         cout<<"\tMENU\n";
         cout<<"1. Ingresar un cliente a la cola 1\n";
         cout<<"2. Ingresar un cliente a la cola 2\n";
-        cout<<"3. Mostrar cola de clientes\n"; // esta opcion borra los datos por lo que hay que ejecutarla al final
+        cout<<"3. Mostrar cola de clientes\n";
         cout<<"4. Comparar colas\n";
         cout<<"5. Mostrar el mayor DNI\n";
         cout<<"0. Salir\n\n";
         cout<<"Opcion: "; cin>>opcion;
         switch(opcion) {
-            case 1: cout<<"Ingresar un cliente a la cola 1:\n";
+            case 1: cout<<"\tIngresar un cliente a la cola 1:\n";
                     ingresarCliente(cliente);
                     insertarCola(frente_cola1, fin_cola1, cliente);
                     cout<<"El cliente se agrego correctamente a la cola 1.\n\n";
                     system("pause");
                     break;
-            case 2: cout<<"Ingresar un cliente a la cola 2:\n";
+            case 2: cout<<"\tIngresar un cliente a la cola 2:\n";
                     ingresarCliente(cliente);
                     insertarCola(frente_cola2, fin_cola2, cliente);
                     cout<<"El cliente se agrego correctamente a la cola 2.\n\n";
                     system("pause");
                     break;
-            case 3: cout<<"Mostrar cola de clientes\n";
+            case 3: cout<<"\tMostrar cola de clientes\n";
                     cout<<"Elija la cola a mostrar\n";
-                    cout<<"1. Cola 1\n";
-                    cout<<"2. Cola 2\n";
+                    cout<<"\t1. Cola 1\n";
+                    cout<<"\t2. Cola 2\n";
                     cout<<"Opcion: "; cin>>opcion_cola;
                     cout<<"\tMostrando cola "<<opcion_cola<<":\n";
-                    if (opcion_cola == 1) mostrarCola(frente_cola1, fin_cola1, cliente);
-                    if (opcion_cola == 2) mostrarCola(frente_cola2, fin_cola2, cliente);
+                    if (opcion_cola == 1) mostrarCola(frente_cola1, cliente);
+                    if (opcion_cola == 2) mostrarCola(frente_cola2, cliente);
                     else cout<<"No existe la opcion ingresada. Vuelva a intentarlo.\n";
                     break;
-            case 4: cout<<"Comparar colas:\n";
-                    compararColas(frente_cola1, fin_cola1, frente_cola2, fin_cola2);
+            case 4: cout<<"\tComparar colas:\n";
+                    compararColas(frente_cola1, frente_cola2);
                     break;
-            case 5: cout<<"Mayor DNI\n";
+            case 5: cout<<"\tMayor DNI\n";
                     cout<<"Elija la cola de la cual quiere saber el mayor DNI\n";
-                    cout<<"1. cola 1\n";
-                    cout<<"2. cola 2\n";
+                    cout<<"\t1. Cola 1\n";
+                    cout<<"\t2. Cola 2\n";
                     cout<<"Opcion: "; cin>>opcion_cola;
-                    cout<<"\tcola "<<opcion_cola<<":\n";
-                    if (opcion_cola == 1) mayorDni(frente_cola1, fin_cola1);
-                    if (opcion_cola == 2) mayorDni(frente_cola2, fin_cola2);
+                    cout<<"\tCola "<<opcion_cola<<":\n";
+                    if (opcion_cola == 1) mayorDni(frente_cola1);
+                    if (opcion_cola == 2) mayorDni(frente_cola2);
                     else cout<<"No existe la opcion ingresada. Vuleva a intentarlo.\n";
                     break;
             case 0: break;
@@ -101,7 +99,6 @@ void ingresarCliente(Cliente &p) {
     fflush(stdin);
     cout<<"\tIngresar los datos del cliente:\n";
     cout<<"Nombre: "; cin.getline(p.nombre, 30, '\n');
-    cout<<"Clave: "; cin.getline(p.clave, 10, '\n');
     cout<<"Edad: "; cin>>p.edad;
     cout<<"DNI: "; cin>>p.dni;
 }
@@ -123,34 +120,43 @@ bool colaVacia(Nodo *frente) {
     return (frente == NULL) ? true : false;
 }
 
-void sacarCola(Nodo *&frente, Nodo *&fin, Cliente &p) {
-    p = frente -> c;
+void mostrarCola(Nodo *frente, Cliente &p) {
     Nodo *aux = frente;
-    if (frente == fin) {
-        frente = NULL;
-        fin = NULL;
-    } else {
-        frente = frente -> siguiente;
+    while (aux != NULL) {
+        p = aux -> c;
+        cout<<"Nombre: "<<p.nombre<<endl;
+        cout<<"Edad: "<<p.edad<<endl;
+        cout<<"DNI: "<<p.dni<<endl;
+        cout<<"\n";
+        aux = aux -> siguiente;
     }
-    delete aux;
+    system("pause");
 }
 
-void mostrarCola(Nodo *&frente, Nodo *&fin, Cliente &p) {
-    while (frente != NULL) {
-        sacarCola(frente, fin, p);
-        if (frente != NULL) {
-            cout<<"Nombre: "<<p.nombre<<endl;
-            cout<<"Clave: "<<p.clave<<endl;
-            cout<<"Edad: "<<p.edad<<endl;
-            cout<<"DNI: "<<p.dni<<endl;
-            cout<<"\t*************\n";
-        } else {
-            cout<<"Nombre: "<<p.nombre<<endl;
-            cout<<"Clave: "<<p.clave<<endl;
-            cout<<"Edad: "<<p.edad<<endl;
-            cout<<"DNI: "<<p.dni<<endl;
-            cout<<"\n\n";
+void compararColas(Nodo *frente1, Nodo *frente2) {
+    while (frente1 != NULL) {
+        Nodo *aux = new Nodo();
+        aux = frente2;
+        while (aux != NULL) {
+            if ((frente1 -> c.edad)==(aux -> c.edad)) {
+                cout<<"Si hay edades repetidas.\n";
+                cout<<"La edad que se repite es: "<<aux -> c.edad<<" anios.\n";
+                cout<<"Pertenecen a "<<aux -> c.nombre<<" y a "<<frente1 -> c.nombre<<endl;
+            }
+            aux = aux -> siguiente;
         }
+        frente1 = frente1 -> siguiente;
     }
+    cout<<"\n";
+    system("pause");
+}
+
+void mayorDni(Nodo *frente) {
+    int mayor = 0;
+    while (frente != NULL) {
+        if ((frente -> c.dni) > mayor) mayor = frente -> c.dni;
+        frente = frente -> siguiente;
+    }
+    cout<<"El DNI mas grande es: "<<mayor<<endl;
     system("pause");
 }
